@@ -10,6 +10,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 import folium
 from streamlit_folium import st_folium
+from streamlit_autorefresh import st_autorefresh
 from sklearn.metrics import r2_score, mean_squared_error
 from datetime import datetime, timedelta
 import osmnx as ox
@@ -173,7 +174,12 @@ with col2:
         "font-weight: 400; margin-bottom: 5px;'>🕐 Time</p>",
         unsafe_allow_html=True
     )
+
+    st_autorefresh(interval=60000, key="clock_refresh")
+
     time_input = datetime.now().time()
+
+# Display time in your styled box
     st.markdown(
         f"""
         <div style='background-color: white; padding: 7px 12px; border-radius: 6px;
@@ -184,6 +190,7 @@ with col2:
         """,
         unsafe_allow_html=True
     )
+
 # Road selection
 road_input = st.sidebar.selectbox(
     "🛣️ Road/Intersection",
@@ -639,17 +646,20 @@ if show_debug:
 # ==============================
 st.sidebar.markdown("---")
 st.sidebar.subheader("ℹ️ About")
-st.sidebar.info("""
-**Smart Traffic Predictor v2.0**
-
-Features:
-- Real-time predictions
-- Route optimization
-- Smart alerts
-- Historical analysis
-- Environmental impact
-
-""")
+st.sidebar.markdown(
+    """
+    <div style="color: white; font-weight: normal;">
+    <strong>Smart Traffic Predictor v2.0</strong><br><br>
+    Features:<br>
+    - Real-time predictions<br>
+    - Route optimization<br>
+    - Smart alerts<br>
+    - Historical analysis<br>
+    - Environmental impact
+    </div>
+    """,
+    unsafe_allow_html=True
+)
 
 st.sidebar.markdown("---")
 if st.sidebar.button("🔄 Refresh Dashboard"):

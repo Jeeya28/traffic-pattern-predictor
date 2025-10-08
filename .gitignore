@@ -8,10 +8,6 @@ venv/
 env/
 ENV/
 
-# Data files
-*.csv
-*.graphml
-
 # IDE
 .vscode/
 .idea/
