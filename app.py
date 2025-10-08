@@ -16,6 +16,7 @@ from datetime import datetime, timedelta
 import osmnx as ox
 import networkx as nx
 import folium
+import pytz
 from streamlit_folium import st_folium
 
 
@@ -163,33 +164,27 @@ source_input = st.sidebar.selectbox("🏁 Select Source", locations_list, index=
 destination_input = st.sidebar.selectbox("🎯 Select Destination", locations_list, index=1)
 
 # Date and Time inputs - MAKE SURE THESE ARE DEFINED
-col1, col2 = st.sidebar.columns(2)
+# Set timezone to India
+IST = pytz.timezone('Asia/Kolkata')
 
-with col1:
-    date = st.date_input("📅 Date", datetime.now())
+# Auto-refresh every 60 seconds
+st_autorefresh(interval=60000, limit=None, key="time_refresh")
 
-with col2:
-    st.markdown(
-        "<p style='font-size: 0.85rem; color: rgb(49, 51, 63); "
-        "font-weight: 400; margin-bottom: 5px;'>🕐 Time</p>",
-        unsafe_allow_html=True
-    )
+# Date input
+date = st.sidebar.date_input("📅 Date", datetime.now(IST))
 
-    st_autorefresh(interval=60000, key="clock_refresh")
-
-    time_input = datetime.now().time()
-
-# Display time in your styled box
-    st.markdown(
-        f"""
-        <div style='background-color: white; padding: 7px 12px; border-radius: 6px;
-                    border: 1px solid #d3d3d3; text-align: center; 
-                    width: 100%; box-sizing: border-box;'>
-            <span style='color: #0e1117; font-size: 16px;'>{time_input.strftime('%H:%M')}</span>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
+# Get current time in IST
+st.sidebar.markdown("🕐 Time")
+current_time = datetime.now(IST).time()
+st.sidebar.markdown(
+    f"""
+    <div style='background-color: white; padding: 9px 14px; border-radius: 6px; 
+                border: 1px solid rgba(49, 51, 63, 0.2); margin-bottom: 20px;'>
+        <span style='color: #0e1117; font-size: 14px;'>{current_time.strftime('%H:%M:%S')}</span>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
 
 # Road selection
 road_input = st.sidebar.selectbox(
@@ -215,7 +210,7 @@ with st.sidebar.expander("⚙️ Advanced Settings"):
 # ==============================
 # Process Inputs & Predict
 # ==============================
-hour = time_input.hour
+hour = current_time.hour
 day_of_week = date.weekday() + 1
 day = date.day
 month = date.month
