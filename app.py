@@ -173,14 +173,17 @@ st_autorefresh(interval=60000, limit=None, key="time_refresh")
 # Date input
 date = st.sidebar.date_input("📅 Date", datetime.now(IST))
 
-# Get current time in IST
-st.sidebar.markdown("🕐 Time")
+# Get current time in IST - matching label style
 current_time = datetime.now(IST).time()
 st.sidebar.markdown(
     f"""
+    <label style='color: white; font-size: 0.875rem; font-weight: 400; 
+                  line-height: 1.6; margin-bottom: 0.1rem;display: block;'>
+        🕐 Time
+    </label>
     <div style='background-color: white; padding: 9px 14px; border-radius: 6px; 
-                border: 1px solid rgba(49, 51, 63, 0.2); margin-bottom: 20px;'>
-        <span style='color: #0e1117; font-size: 14px;'>{current_time.strftime('%H:%M:%S')}</span>
+                border: 1px solid rgba(49, 51, 63, 0.2); margin-bottom: 1rem;margin-top: -0.7rem;'>
+        <span style='color: #0e1117; font-size: 16px;'>{current_time.strftime('%H:%M:%S')}</span>
     </div>
     """,
     unsafe_allow_html=True
