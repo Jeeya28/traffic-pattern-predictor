@@ -12,8 +12,7 @@ osmnx==1.9.3
 networkx==3.2.1
 matplotlib==3.9.2
 shapely==2.0.5
-numexpr>=2.10.1
-pandas==2.0.3
+numexpr==2.10.1
 lightgbm==4.5.0
 dask==2024.5.0
 scikit-learn==1.5.2
